@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "557025891037",
+    "project_id": "autopartscatalog-19fbd",
+    "storage_bucket": "autopartscatalog-19fbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557025891037:android:9dabca6a5d4945dcc90134",
+        "android_client_info": {
+          "package_name": "com.example.autoparts_catalog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC67evC1PmnVNnmi3C4uVkNP_TYn0kafWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
