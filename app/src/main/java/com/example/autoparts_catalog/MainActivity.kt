@@ -4,16 +4,37 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.autoparts_catalog.ui.theme.AutoParts_CatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,8 +43,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AutoParts_CatalogTheme {
-                vs()
-
+                Screen()
             }
         }
     }
@@ -31,13 +51,97 @@ class MainActivity : ComponentActivity() {
 
 @Preview(showSystemUi = true)
 @Composable
-fun vs(){
-    val list = listOf(1, 2, 3, 4, 5)
-    Column {
-        list.forEach {
-            Text(text = it.toString())
+fun Screen() {
+    val navController = rememberNavController()
+
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
+        }
+    ) { innerPadding ->
+        NavHost(navController = navController, startDestination = "searchScreen") {
+            composable("searchScreen") { SearchScreen(innerPadding) }
         }
     }
 }
 
+@Composable
+fun BottomNavigationBar(navController: NavController) {
+    BottomAppBar(
+        modifier = Modifier
+            .fillMaxWidth(),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            TextButton(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterVertically)
+                    .weight(1f),
+                onClick = { navController.navigate("searchScreen") }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")
+                    Text("Поиск")
+                }
+            }
 
+            TextButton(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterVertically)
+                    .weight(1f),
+                onClick = { navController.navigate("searchScreen") }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")
+                    Text("Автомобили")
+                }
+            }
+
+            TextButton(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .align(Alignment.CenterVertically)
+                    .weight(1f),
+                onClick = { navController.navigate("searchScreen") }
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")
+                    Text("Избранное")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SearchScreen(innerPudding: PaddingValues) {
+    Box(modifier = Modifier.padding()) {
+        SearchTextField()
+    }
+}
+
+@Composable
+fun SearchTextField() {
+    var text by remember { mutableStateOf("")}
+
+    OutlinedTextField(
+        value = text,
+        onValueChange = { text = it },
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxWidth()
+            .background(Color.LightGray),
+        placeholder = { Text(text = "Поиск...") },
+        leadingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")}
+    )
+}
