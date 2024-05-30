@@ -22,20 +22,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.autoparts_catalog.ui.theme.AutoParts_CatalogTheme
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.internal.NopCollector.emit
+import kotlinx.serialization.Serializable
+import java.util.concurrent.Flow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,18 +129,31 @@ fun BottomNavigationBar(navController: NavController) {
 
 @Composable
 fun SearchScreen(innerPudding: PaddingValues) {
-    Box(modifier = Modifier.padding()) {
-        SearchTextField()
+    val query = remember { mutableStateOf("") }
+    val searchResult = null
+
+    Box(
+        modifier = Modifier
+            .padding(innerPudding)
+    ) {
+        SearchTextField(query.value, onQueryChange = { query.value = it })
+        Column{
+            if (searchResult.value.isNotEmpty()) {
+
+            }
+        }
     }
 }
 
 @Composable
-fun SearchTextField() {
-    var text by remember { mutableStateOf("")}
+fun SearchTextField(
+    query: String,
+    onQueryChange: (String) -> Unit
+    ) {
 
     OutlinedTextField(
-        value = text,
-        onValueChange = { text = it },
+        value = query,
+        onValueChange = { onQueryChange },
         modifier = Modifier
             .padding(20.dp)
             .fillMaxWidth()
@@ -144,4 +161,33 @@ fun SearchTextField() {
         placeholder = { Text(text = "Поиск...") },
         leadingIcon = { Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")}
     )
+}
+
+@Serializable
+data class Parts (
+    val article: String,
+    val carID: String,
+    val description: String,
+    val name: String
+)
+
+class RepositoryParts() {
+    private val db = FirebaseFirestore.getInstance()
+
+    fun getParts(): Flow<List<Parts>> {
+        return db.collection("parts")
+            .addSnapshotListener() { querySnapshot, _ ->
+                if (querySnapshot != null) {
+                   val parts = querySnapshot.documents.map { document ->
+                       document.toObject(Parts::class.java)!!
+                   }
+                    emit(parts)
+                }
+            }
+            .flowOn(Dispatchers.IO)
+    }
+}
+
+class SearchViewModel : ViewModel() {
+
 }

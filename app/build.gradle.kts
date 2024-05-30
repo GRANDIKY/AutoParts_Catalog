@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.autoparts_catalog"
-        minSdk = 24
+        minSdk = 29
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -48,9 +48,31 @@ android {
 }
 
 dependencies {
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
-    implementation("com.google.firebase:firebase-database:20.0.3")
-    implementation("com.google.firebase:firebase-analytics")
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.compose)
+    implementation (libs.androidx.activity.compose.v190)
+    implementation (libs.androidx.ui.flow.layout)
+    implementation (libs.androidx.material3.window.size)
+    implementation (libs.androidx.material3.compose.theme)
+    implementation (libs.androidx.material3.util)
+    implementation (libs.ui.tooling.preview)
+    debugImplementation (libs.ui.test.manifest)
+    implementation (libs.androidx.junit)
+    implementation (libs.androidx.espresso.core.v362)
+    implementation (libs.androidx.espresso.contrib)
+    implementation (libs.androidx.rules)
+    implementation (libs.androidx.junit)
+    androidTestImplementation (libs.androidx.junit)
+    androidTestImplementation (libs.androidx.espresso.core.v362)
+    androidTestImplementation (libs.androidx.espresso.contrib)
+    androidTestImplementation (libs.androidx.ui.test)
+    androidTestImplementation (libs.ui.test.junit4)
+    debugImplementation (libs.ui.tooling)
+    debugImplementation (libs.ui.test.manifest)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database)
+    implementation(libs.firebase.analytics)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -60,6 +82,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
