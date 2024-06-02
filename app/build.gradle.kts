@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler) apply false
     id("com.google.gms.google-services") version "4.4.1" apply false
+    kotlin("plugin.serialization") version "2.0.0-RC3"
 }
 
 android {
@@ -10,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.autoparts_catalog"
-        minSdk = 29
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -38,7 +40,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.6.10"
     }
     packaging {
         resources {
@@ -48,31 +50,10 @@ android {
 }
 
 dependencies {
-    implementation (libs.androidx.lifecycle.runtime.ktx)
-    implementation (libs.androidx.lifecycle.viewmodel.compose)
-    implementation (libs.androidx.activity.compose.v190)
-    implementation (libs.androidx.ui.flow.layout)
-    implementation (libs.androidx.material3.window.size)
-    implementation (libs.androidx.material3.compose.theme)
-    implementation (libs.androidx.material3.util)
-    implementation (libs.ui.tooling.preview)
-    debugImplementation (libs.ui.test.manifest)
-    implementation (libs.androidx.junit)
-    implementation (libs.androidx.espresso.core.v362)
-    implementation (libs.androidx.espresso.contrib)
-    implementation (libs.androidx.rules)
-    implementation (libs.androidx.junit)
-    androidTestImplementation (libs.androidx.junit)
-    androidTestImplementation (libs.androidx.espresso.core.v362)
-    androidTestImplementation (libs.androidx.espresso.contrib)
-    androidTestImplementation (libs.androidx.ui.test)
-    androidTestImplementation (libs.ui.test.junit4)
-    debugImplementation (libs.ui.tooling)
-    debugImplementation (libs.ui.test.manifest)
+    implementation(libs.kotlinx.serialization.json)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
     implementation(libs.firebase.analytics)
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -82,8 +63,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.android)
     implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -92,4 +71,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 }
