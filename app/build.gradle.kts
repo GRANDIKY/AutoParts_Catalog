@@ -50,6 +50,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.landscapist.glide)
+    implementation (libs.landscapist.coil)
+    implementation(libs.coil.compose)
     implementation(libs.google.firebase.firestore.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(platform(libs.firebase.bom))
