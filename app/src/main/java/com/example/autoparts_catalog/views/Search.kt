@@ -123,8 +123,5 @@ fun PartItem(part: Parts) {
 fun navigateToPartInfoActivity(context: Context, partArticle: String) {
     val intent = Intent(context, PartInfoActivity::class.java)
     intent.putExtra("article", partArticle)
-    Log.d("navigateToPartInfo", "Starting PartInfoActivity with article: $partArticle")
-    Log.d("navigateToPartInfo", "Intent: $intent")
-    Log.d("navigateToPartInfo", "Context: $context")
     context.startActivity(intent)
 }

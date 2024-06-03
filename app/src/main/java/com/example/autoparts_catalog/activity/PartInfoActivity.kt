@@ -15,15 +15,10 @@ class PartInfoActivity : ComponentActivity() {
         Log.d("PartInfoActivity", "Activity created")
 
         val partArticle = intent.getStringExtra("article")
-        if (partArticle != null) {
-            Log.d("PartInfoActivity", "Received article: $partArticle")
-        } else {
-            Log.d("PartInfoActivity", "No article received")
-            return
-        }
+
         setContent {
             val partDetailsViewModel = ViewModelProvider(this)[PartDetailsViewModel::class.java]
-            PartDetailsScreen(partDetailsViewModel, partArticle)
+            PartDetailsScreen(partDetailsViewModel, partArticle.toString())
         }
     }
 }
