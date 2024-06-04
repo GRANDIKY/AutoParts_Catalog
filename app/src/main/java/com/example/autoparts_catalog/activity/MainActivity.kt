@@ -1,4 +1,4 @@
-package com.example.autoparts_catalog
+package com.example.autoparts_catalog.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -25,15 +25,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.autoparts_catalog.ui.theme.AutoParts_CatalogTheme
+import com.example.autoparts_catalog.views.SearchScreen
+import com.example.autoparts_catalog.viewmodels.SearchViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
         enableEdgeToEdge()
         setContent {
             AutoParts_CatalogTheme {
                 val navController = rememberNavController()
+                val searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
                 Scaffold(
                     bottomBar = {
