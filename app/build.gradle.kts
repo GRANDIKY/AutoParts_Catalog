@@ -51,13 +51,15 @@ android {
 
 dependencies {
     implementation(libs.landscapist.glide)
-    implementation (libs.landscapist.coil)
+    implementation(libs.landscapist.coil)
     implementation(libs.coil.compose)
     implementation(libs.google.firebase.firestore.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
     implementation(libs.firebase.analytics)
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

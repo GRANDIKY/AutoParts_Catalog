@@ -25,8 +25,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.autoparts_catalog.ui.theme.AutoParts_CatalogTheme
-import com.example.autoparts_catalog.views.SearchScreen
+import com.example.autoparts_catalog.viewmodels.CarsListViewModel
+import com.example.autoparts_catalog.viewmodels.FavouritesListViewModel
 import com.example.autoparts_catalog.viewmodels.SearchViewModel
+import com.example.autoparts_catalog.views.CarsListScreen
+import com.example.autoparts_catalog.views.FavouritesListScreen
+import com.example.autoparts_catalog.views.SearchScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +40,9 @@ class MainActivity : ComponentActivity() {
             AutoParts_CatalogTheme {
                 val navController = rememberNavController()
                 val searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
+                val carListViewModel = ViewModelProvider(this)[CarsListViewModel::class.java]
+                val favouritesListViewModel =
+                    ViewModelProvider(this)[FavouritesListViewModel::class.java]
 
                 Scaffold(
                     bottomBar = {
@@ -43,7 +50,15 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     NavHost(navController = navController, startDestination = "searchScreen") {
-                        composable("searchScreen") { SearchScreen(innerPadding, searchViewModel) }
+                        composable("searchScreen") {
+                            SearchScreen(innerPadding, searchViewModel)
+                        }
+                        composable("carsScreen") {
+                            CarsListScreen(innerPadding, carListViewModel)
+                        }
+                        composable("favouritesScreen") {
+                            FavouritesListScreen(innerPadding, favouritesListViewModel)
+                        }
                     }
                 }
             }
