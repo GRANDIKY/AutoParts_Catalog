@@ -24,6 +24,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.autoparts_catalog.models.CarService
 import com.example.autoparts_catalog.ui.theme.AutoParts_CatalogTheme
 import com.example.autoparts_catalog.viewmodels.CarsListViewModel
 import com.example.autoparts_catalog.viewmodels.FavouritesListViewModel
@@ -35,12 +36,16 @@ import com.example.autoparts_catalog.views.SearchScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val carService = CarService(applicationContext)
+
         enableEdgeToEdge()
         setContent {
             AutoParts_CatalogTheme {
                 val navController = rememberNavController()
                 val searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
-                val carListViewModel = ViewModelProvider(this)[CarsListViewModel::class.java]
+                val carListViewModel = ViewModelProvider(
+                    this, CarsListViewModel.provideFactory(carService)
+                )[CarsListViewModel::class.java]
                 val favouritesListViewModel =
                     ViewModelProvider(this)[FavouritesListViewModel::class.java]
 
@@ -96,7 +101,7 @@ fun BottomNavigationBar(navController: NavController) {
                     .fillMaxHeight()
                     .align(Alignment.CenterVertically)
                     .weight(1f),
-                onClick = { navController.navigate("searchScreen") }
+                onClick = { navController.navigate("carsScreen") }
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
