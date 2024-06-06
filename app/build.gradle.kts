@@ -58,6 +58,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
     implementation(libs.firebase.analytics)
+    implementation (libs.google.gson)
 
 
     implementation(libs.androidx.core.ktx)

@@ -2,7 +2,6 @@ package com.example.autoparts_catalog.views
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,8 +19,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,13 +41,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.autoparts_catalog.activity.PartInfoActivity
 import com.example.autoparts_catalog.models.Parts
+import com.example.autoparts_catalog.ui.elements.PartItem
+import com.example.autoparts_catalog.viewmodels.FavouritesListViewModel
 import com.example.autoparts_catalog.viewmodels.SearchViewModel
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 
 
 @Composable
-fun SearchScreen(innerPudding: PaddingValues, viewModel: SearchViewModel) {
+fun SearchScreen(innerPudding: PaddingValues, viewModel: SearchViewModel, favouritesListViewModel: FavouritesListViewModel) {
     var searchQuery by remember { mutableStateOf("") }
     val parts = viewModel.parts.collectAsState()
 
@@ -57,7 +61,7 @@ fun SearchScreen(innerPudding: PaddingValues, viewModel: SearchViewModel) {
 
         LazyColumn {
             items(parts.value) { part ->
-                PartItem(part)
+                PartItem(part, favouritesListViewModel)
             }
         }
     }
@@ -89,35 +93,6 @@ fun SearchTextField(onSearch: (String) -> Unit) {
         ),
         singleLine = true
     )
-}
-
-
-@Composable
-fun PartItem(part: Parts) {
-    val context = LocalContext.current
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clip(RoundedCornerShape(5.dp))
-            .background(Color.White)
-            .clickable {
-                navigateToPartInfoActivity(context, part.article)
-            }
-    ) {
-        CoilImage(imageModel = { part.image },
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Fit
-            ),
-            modifier = Modifier
-                .size(70.dp)
-                .aspectRatio(1.5f)
-                .clip(RoundedCornerShape(5.dp))
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Text("${part.name} - ${part.article}", modifier = Modifier.weight(1f))
-    }
 }
 
 fun navigateToPartInfoActivity(context: Context, partArticle: String) {

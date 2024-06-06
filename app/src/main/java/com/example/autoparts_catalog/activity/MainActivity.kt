@@ -1,5 +1,6 @@
 package com.example.autoparts_catalog.activity
 
+import CarsListScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -29,7 +31,6 @@ import com.example.autoparts_catalog.ui.theme.AutoParts_CatalogTheme
 import com.example.autoparts_catalog.viewmodels.CarsListViewModel
 import com.example.autoparts_catalog.viewmodels.FavouritesListViewModel
 import com.example.autoparts_catalog.viewmodels.SearchViewModel
-import com.example.autoparts_catalog.views.CarsListScreen
 import com.example.autoparts_catalog.views.FavouritesListScreen
 import com.example.autoparts_catalog.views.SearchScreen
 
@@ -37,6 +38,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val carService = CarService(applicationContext)
+        val favouritesListViewModel = ViewModelProvider(
+            this, FavouritesListViewModel.provideFactory(application)
+        )[FavouritesListViewModel::class.java]
 
         enableEdgeToEdge()
         setContent {
@@ -46,8 +50,7 @@ class MainActivity : ComponentActivity() {
                 val carListViewModel = ViewModelProvider(
                     this, CarsListViewModel.provideFactory(carService)
                 )[CarsListViewModel::class.java]
-                val favouritesListViewModel =
-                    ViewModelProvider(this)[FavouritesListViewModel::class.java]
+
 
                 Scaffold(
                     bottomBar = {
@@ -56,10 +59,10 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(navController = navController, startDestination = "searchScreen") {
                         composable("searchScreen") {
-                            SearchScreen(innerPadding, searchViewModel)
+                            SearchScreen(innerPadding, searchViewModel, favouritesListViewModel)
                         }
                         composable("carsScreen") {
-                            CarsListScreen(innerPadding, carListViewModel)
+                            CarsListScreen(innerPadding, carListViewModel, favouritesListViewModel)
                         }
                         composable("favouritesScreen") {
                             FavouritesListScreen(innerPadding, favouritesListViewModel)
@@ -106,7 +109,7 @@ fun BottomNavigationBar(navController: NavController) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")
+                    Icon(imageVector = Icons.Outlined.Search, contentDescription = "Cars")
                     Text("Автомобили")
                 }
             }
@@ -116,12 +119,12 @@ fun BottomNavigationBar(navController: NavController) {
                     .fillMaxHeight()
                     .align(Alignment.CenterVertically)
                     .weight(1f),
-                onClick = { navController.navigate("searchScreen") }
+                onClick = { navController.navigate("favouritesScreen") }
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")
+                    Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "Favourites")
                     Text("Избранное")
                 }
             }

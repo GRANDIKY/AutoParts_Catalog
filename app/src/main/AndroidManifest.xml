@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.PartInfoActivity" />
+        <activity android:name=".activity.CarInfoActivity" />
     </application>
 
 </manifest>
