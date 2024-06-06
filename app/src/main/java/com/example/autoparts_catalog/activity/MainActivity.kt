@@ -38,9 +38,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val carService = CarService(applicationContext)
-        val favouritesListViewModel = ViewModelProvider(
-            this, FavouritesListViewModel.provideFactory(application)
-        )[FavouritesListViewModel::class.java]
 
         enableEdgeToEdge()
         setContent {
@@ -50,7 +47,9 @@ class MainActivity : ComponentActivity() {
                 val carListViewModel = ViewModelProvider(
                     this, CarsListViewModel.provideFactory(carService)
                 )[CarsListViewModel::class.java]
-
+                val favouritesListViewModel = ViewModelProvider(
+                    this, FavouritesListViewModel.provideFactory(application)
+                )[FavouritesListViewModel::class.java]
 
                 Scaffold(
                     bottomBar = {
@@ -131,4 +130,3 @@ fun BottomNavigationBar(navController: NavController) {
         }
     }
 }
-

@@ -1,5 +1,6 @@
 package com.example.autoparts_catalog.ui.elements
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import android.util.Log
 import com.example.autoparts_catalog.models.Parts
 import com.example.autoparts_catalog.viewmodels.FavouritesListViewModel
 import com.example.autoparts_catalog.views.navigateToPartInfoActivity
@@ -41,6 +41,7 @@ fun PartItem(part: Parts, favouritesListViewModel: FavouritesListViewModel) {
     var isFavourite by remember { mutableStateOf(favouritesListViewModel.isFavourite(part)) }
 
     LaunchedEffect(key1 = part.article) {
+        favouritesListViewModel.loadFavourites()
         isFavourite = favouritesListViewModel.isFavourite(part)
     }
 

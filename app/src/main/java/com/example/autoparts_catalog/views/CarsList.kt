@@ -1,3 +1,4 @@
+
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
@@ -59,6 +60,7 @@ fun CarsListScreen(
 
     LaunchedEffect(Unit) {
         viewModel.fetchCarsFromFirestore()
+        favouritesListViewModel.loadFavourites()
     }
 
     Column(modifier = Modifier.padding(innerPadding)) {
@@ -89,7 +91,7 @@ fun CarsListScreen(
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                         .clip(RoundedCornerShape(5.dp))
                         .background(Color.White)
-                        .clickable { navigateToCarInfoActivity(context, car.carID, favouritesListViewModel) },
+                        .clickable { navigateToCarInfoActivity(context, car.carID) },
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -176,7 +178,6 @@ fun AddCarDialog(cars: List<Cars>, onDismiss: () -> Unit, onAddCar: (Cars) -> Un
 fun navigateToCarInfoActivity(
     context: Context,
     carID: String,
-    favouritesListViewModel: FavouritesListViewModel
 ) {
     val intent = Intent(context, CarInfoActivity::class.java)
     intent.putExtra("carID", carID)

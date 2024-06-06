@@ -4,17 +4,17 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import com.example.autoparts_catalog.models.Parts
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class FavouritesListViewModel(application: Application) : AndroidViewModel(application) {
-    private val _favourites = MutableStateFlow<List<Parts>>(emptyList())
-    val favourites: StateFlow<List<Parts>> = _favourites
+    private val _favourites = MutableLiveData<List<Parts>>(emptyList())
+    val favourites: LiveData<List<Parts>> = _favourites
 
     private val sharedPreferences = application.getSharedPreferences("favourites", Context.MODE_PRIVATE)
     private val gson = Gson()
@@ -23,21 +23,25 @@ class FavouritesListViewModel(application: Application) : AndroidViewModel(appli
         loadFavourites()
     }
 
+
     fun addFavourite(part: Parts) {
-        _favourites.value = _favourites.value + listOf(part) // Обновление состояния с добавлением нового элемента
+        _favourites.value =
+            _favourites.value?.plus(listOf(part)) // Обновление состояния с добавлением нового элемента
+        //_favourites.update { meh -> meh + part  }
         saveFavourites()
         Log.d("FavouritesListViewModel", "Added favourite: $part")
     }
 
     fun removeFavourite(part: Parts) {
-        _favourites.value = _favourites.value - listOf(part) // Обновление состояния с удалением элемента
+        _favourites.value =
+            _favourites.value?.minus(listOf(part)) // Обновление состояния с удалением элемента
         saveFavourites()
         Log.d("FavouritesListViewModel", "Removed favourite: $part")
     }
 
 
     fun isFavourite(part: Parts?): Boolean {
-        return part != null && _favourites.value.contains(part)
+        return part != null && _favourites.value!!.contains(part)
     }
 
     private fun saveFavourites() {
@@ -47,7 +51,7 @@ class FavouritesListViewModel(application: Application) : AndroidViewModel(appli
         editor.apply()
     }
 
-    private fun loadFavourites() {
+    fun loadFavourites() {
         val json = sharedPreferences.getString("favourites_list", null)
         if (json != null) {
             val type = object : TypeToken<List<Parts>>() {}.type

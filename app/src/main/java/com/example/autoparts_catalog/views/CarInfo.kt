@@ -1,6 +1,5 @@
 package com.example.autoparts_catalog.views
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -30,6 +29,7 @@ fun CarInfoScreen(carID: String?, viewModel: CarInfoViewModel, favouritesListVie
         if (carID != null) {
             viewModel.searchPartsByID(carID)
         }
+        favouritesListViewModel.loadFavourites()
     }
 
 
