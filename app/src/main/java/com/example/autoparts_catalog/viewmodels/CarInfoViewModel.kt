@@ -8,7 +8,7 @@ import com.google.firebase.firestore.toObjects
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class CarInfoViewModel(carID: String): ViewModel() {
+class CarInfoViewModel : ViewModel() {
     private val _parts = MutableStateFlow<List<Parts>>(emptyList())
     val parts: StateFlow<List<Parts>> = _parts
 
@@ -35,10 +35,10 @@ class CarInfoViewModel(carID: String): ViewModel() {
     }
 
     companion object {
-        fun provideFactory(carID: String): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        fun provideFactory(): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(CarInfoViewModel::class.java)) {
-                    return CarInfoViewModel(carID) as T
+                    return CarInfoViewModel() as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel class")
             }

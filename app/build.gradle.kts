@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.analytics)
     implementation (libs.google.gson)
+    implementation (libs.androidx.material.icons.extended)
 
 
     implementation(libs.androidx.core.ktx)

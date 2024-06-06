@@ -1,13 +1,16 @@
+package com.example.autoparts_catalog.views
 
 import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -40,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.autoparts_catalog.activity.CarInfoActivity
 import com.example.autoparts_catalog.models.Cars
 import com.example.autoparts_catalog.viewmodels.CarsListViewModel
@@ -58,17 +62,30 @@ fun CarsListScreen(
     val allCars = viewModel.carsState.collectAsState()
     val showDialog = remember { mutableStateOf(false) }
 
+
+
     LaunchedEffect(Unit) {
         viewModel.fetchCarsFromFirestore()
         favouritesListViewModel.loadFavourites()
     }
 
-    Column(modifier = Modifier.padding(innerPadding)) {
-        Button(onClick = {
-            if (allCars.value.isNotEmpty()) {
-                showDialog.value = true
-            }
-        }) {
+    Column(
+        modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = {
+                if (allCars.value.isNotEmpty()) {
+                    showDialog.value = true
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth(0.9f) // Make the button width 90% of the screen width
+                .padding(vertical = 16.dp)
+        ) {
             Text("Добавить автомобиль")
         }
 
@@ -83,30 +100,55 @@ fun CarsListScreen(
             )
         }
 
-        LazyColumn {
-            items(savedCars.value) { car ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                        .clip(RoundedCornerShape(5.dp))
-                        .background(Color.White)
-                        .clickable { navigateToCarInfoActivity(context, car.carID) },
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CoilImage(imageModel = { car.image },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Fit
-                        ),
+        Text(
+            text = "Добавленные автомобили:",
+            fontSize = 24.sp,
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .background(Color.LightGray)
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp) // Padding to give some space around the list items
+            ) {
+                items(savedCars.value) { car ->
+                    Row(
                         modifier = Modifier
-                            .size(150.dp)
-                            .aspectRatio(1.5f)
-                            .clip(RoundedCornerShape(10.dp))
-                    )
-                    Text(text = "${car.make} ${car.name}")
-                    IconButton(onClick = { viewModel.removeSavedCar(car) }) {
-                        Icon(imageVector = Icons.Filled.Close, contentDescription = "Удалить")
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                            .clip(RoundedCornerShape(5.dp))
+                            .background(Color.White)
+                            .clickable { navigateToCarInfoActivity(
+                                context,
+                                car.carID,
+                                car.make,
+                                car.name,
+                                car.image,
+                                car.year.toString()
+                            ) },
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CoilImage(
+                            imageModel = { car.image },
+                            imageOptions = ImageOptions(
+                                contentScale = ContentScale.Fit
+                            ),
+                            modifier = Modifier
+                                .size(150.dp)
+                                .aspectRatio(1.5f)
+                                .clip(RoundedCornerShape(10.dp))
+                        )
+                        Text(text = "${car.make} ${car.name}")
+                        IconButton(onClick = { viewModel.removeSavedCar(car) }) {
+                            Icon(imageVector = Icons.Filled.Close, contentDescription = "Удалить")
+                        }
                     }
                 }
             }
@@ -178,8 +220,16 @@ fun AddCarDialog(cars: List<Cars>, onDismiss: () -> Unit, onAddCar: (Cars) -> Un
 fun navigateToCarInfoActivity(
     context: Context,
     carID: String,
+    carMake: String,
+    carModel: String,
+    carImage: String,
+    carYear: String
 ) {
     val intent = Intent(context, CarInfoActivity::class.java)
     intent.putExtra("carID", carID)
+    intent.putExtra("make", carMake)
+    intent.putExtra("model", carModel)
+    intent.putExtra("image", carImage)
+    intent.putExtra("year", carYear)
     context.startActivity(intent)
 }

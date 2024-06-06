@@ -35,25 +35,25 @@ import com.example.autoparts_catalog.viewmodels.SearchViewModel
 
 @Composable
 fun SearchScreen(
-    innerPudding: PaddingValues,
+    innerPadding: PaddingValues,
     viewModel: SearchViewModel,
     favouritesListViewModel: FavouritesListViewModel
 ) {
     var searchQuery by remember { mutableStateOf("") }
-    val parts = viewModel.parts.collectAsState()
+    val parts by viewModel.parts.collectAsState()
 
     LaunchedEffect(Unit) {
         favouritesListViewModel.loadFavourites()
     }
 
-    Column(modifier = Modifier.padding(innerPudding)) {
+    Column(modifier = Modifier.padding(innerPadding)) {
         SearchTextField {
             searchQuery = it
             viewModel.onSearchQueryChanged(it)
         }
 
         LazyColumn {
-            items(parts.value) { part ->
+            items(parts) { part ->
                 PartItem(part, favouritesListViewModel)
             }
         }

@@ -2,7 +2,6 @@ package com.example.autoparts_catalog.viewmodels
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,22 +25,14 @@ class FavouritesListViewModel(application: Application) : AndroidViewModel(appli
 
     fun addFavourite(part: Parts) {
         _favourites.value =
-            _favourites.value?.plus(listOf(part)) // Обновление состояния с добавлением нового элемента
-        //_favourites.update { meh -> meh + part  }
+            _favourites.value?.plus(listOf(part))
         saveFavourites()
-        Log.d("FavouritesListViewModel", "Added favourite: $part")
     }
 
     fun removeFavourite(part: Parts) {
         _favourites.value =
-            _favourites.value?.minus(listOf(part)) // Обновление состояния с удалением элемента
+            _favourites.value?.minus(listOf(part).toSet())
         saveFavourites()
-        Log.d("FavouritesListViewModel", "Removed favourite: $part")
-    }
-
-
-    fun isFavourite(part: Parts?): Boolean {
-        return part != null && _favourites.value!!.contains(part)
     }
 
     private fun saveFavourites() {
@@ -56,8 +47,11 @@ class FavouritesListViewModel(application: Application) : AndroidViewModel(appli
         if (json != null) {
             val type = object : TypeToken<List<Parts>>() {}.type
             _favourites.value = gson.fromJson(json, type)
+        } else {
+            _favourites.value = emptyList()
         }
     }
+
 
     companion object {
         fun provideFactory(application: Application): ViewModelProvider.Factory =

@@ -20,9 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -38,11 +36,11 @@ import com.skydoves.landscapist.coil.CoilImage
 @Composable
 fun PartItem(part: Parts, favouritesListViewModel: FavouritesListViewModel) {
     val context = LocalContext.current
-    var isFavourite by remember { mutableStateOf(favouritesListViewModel.isFavourite(part)) }
+    val favourites by favouritesListViewModel.favourites.observeAsState(emptyList())
+    val isFavourite = favourites.contains(part)
 
     LaunchedEffect(key1 = part.article) {
         favouritesListViewModel.loadFavourites()
-        isFavourite = favouritesListViewModel.isFavourite(part)
     }
 
     Row(
@@ -71,12 +69,9 @@ fun PartItem(part: Parts, favouritesListViewModel: FavouritesListViewModel) {
             onClick = {
                 if (isFavourite) {
                     favouritesListViewModel.removeFavourite(part)
-                    Log.d("PartItem", "Removed part from favourites: ${part.article}")
                 } else {
                     favouritesListViewModel.addFavourite(part)
-                    Log.d("PartItem", "Added part to favourites: ${part.article}")
                 }
-                isFavourite = !isFavourite
             }
         ) {
             Icon(

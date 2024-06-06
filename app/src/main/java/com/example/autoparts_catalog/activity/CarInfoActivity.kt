@@ -13,17 +13,21 @@ class CarInfoActivity: ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val carID = intent.getStringExtra("carID")
+        val carMake = intent.getStringExtra("make")
+        val carModel = intent.getStringExtra("model")
+        val carImage = intent.getStringExtra("image")
+        val carYear = intent.getStringExtra("year")
 
         setContent {
             val carInfoViewModel = ViewModelProvider(
-                this, CarInfoViewModel.provideFactory(carID.toString())
+                this, CarInfoViewModel.provideFactory()
             )[CarInfoViewModel::class.java]
             
             val favouritesListViewModel = ViewModelProvider(
                 this, FavouritesListViewModel.provideFactory(application)
             )[FavouritesListViewModel::class.java]
 
-            CarInfoScreen(carID, carInfoViewModel, favouritesListViewModel)
+            CarInfoScreen(carID, carMake, carModel, carImage, carYear, carInfoViewModel, favouritesListViewModel)
         }
     }
 }

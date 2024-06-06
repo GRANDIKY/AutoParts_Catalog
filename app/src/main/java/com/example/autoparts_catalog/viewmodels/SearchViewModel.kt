@@ -20,6 +20,10 @@ class SearchViewModel: ViewModel() {
         searchParts(query)
     }
 
+    fun clearSearchResults() {
+        _parts.value = emptyList()
+    }
+
     private fun searchParts(query: String) {
         if (query.isEmpty()) {
             _parts.value = emptyList()
