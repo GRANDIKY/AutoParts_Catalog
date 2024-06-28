@@ -48,11 +48,11 @@
 ![qr (2)](https://github.com/GRANDIKY/AutoParts_Catalog/assets/86950355/0c22faf5-3401-4bb5-b2fb-0b2aa03ad8f5)
 
 ## Документация
-Пользовательская документация:
+#### Пользовательская документация:
 
 [Руководство пользователя](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/6.-%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F)
 
-Документация разработки:
+#### Документация разработки:
 
 [Техническое задание](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/1.-%D0%A2%D0%97)
 
