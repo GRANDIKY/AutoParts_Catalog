@@ -46,3 +46,20 @@
 По этому QR-коду можно перейти на облако и скачать приложение
 
 ![qr (2)](https://github.com/GRANDIKY/AutoParts_Catalog/assets/86950355/0c22faf5-3401-4bb5-b2fb-0b2aa03ad8f5)
+
+## Документация
+Пользовательская документация:
+
+[Руководство пользователя](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/6.-%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F)
+
+Документация разработки:
+
+[Техническое задание](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/1.-%D0%A2%D0%97)
+
+[Требования](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/3.-%D0%A2%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)
+
+[Спецификация](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/2.-%D0%A1%D0%BF%D0%B5%D1%86%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F)
+
+[Прецеденты](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/4.-%D0%A2%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8B-%D0%BF%D1%80%D0%B5%D1%82%D0%B5%D0%BD%D0%B4%D0%B5%D0%BD%D1%82%D0%BE%D0%B2)
+
+[Тестирование](https://github.com/GRANDIKY/AutoParts_Catalog/wiki/5.-%D0%A2%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5)
